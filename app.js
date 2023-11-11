@@ -5,11 +5,12 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.json());
 
-const userRoute = require("./routes/createUser");
+const userRoute = require("./routes/userRoutes/User");
+const scoreRoute = require("./routes/scoreRotues/Score");
 
-app.use(userRoute);
+app.use("/user", userRoute);
+app.use("/score", scoreRoute);
 
 const port = process.env.APP_PORT || 3001;
 
