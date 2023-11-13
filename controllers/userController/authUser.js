@@ -14,18 +14,21 @@ const authUser = async (req, res) => {
         email: email,
       },
     });
-    if (password == user.password) {
-      res.json({
-        message: "Login Successfully",
-        data: user,
-      });
+    if (!user) {
+      res.json({ error: "User Doesn't Exist" });
+    } else if (password == user.password) {
       const accesToken = sign(
         { username: user.username, email: user.email },
         "Token"
       );
+      // res.json({
+      //   message: "Login Successfully",
+      //   data: user,
+      // });
+      res.json(accesToken);
     } else {
       res.json({
-        error: "Invalid email or password",
+        error: "Wrong Email or Password Combination",
       });
     }
   } catch (error) {
