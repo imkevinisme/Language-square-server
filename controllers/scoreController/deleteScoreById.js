@@ -1,11 +1,11 @@
 const { PrismaClient } = require("@prisma/client");
 const Prisma = new PrismaClient();
 
-const getScoreById = async (req, res) => {
+const deleteScoreById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const score = await Prisma.score.findUnique({
+    const score = await Prisma.score.delete({
       where: {
         id: parseInt(id),
       },
@@ -18,12 +18,12 @@ const getScoreById = async (req, res) => {
     }
 
     return res.status(200).json({
-      message: "Score retrieved successfully",
+      message: "Score Deleted successfully",
       data: score,
     });
   } catch (error) {
-    return res.status(500).json({ error: "Error retrieving score" });
+    return res.status(500).json({ error: "Error Deleting score" });
   }
 };
 
-module.exports = getScoreById;
+module.exports = deleteScoreById;

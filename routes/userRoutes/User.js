@@ -1,11 +1,18 @@
 const express = require("express");
 const { check } = require("express-validator");
 
+const authUser = require("../../controllers/userController/authUser");
+const getUser = require("../../controllers/userController/getUser");
+const getUserById = require("../../controllers/userController/getUserById");
 const createUser = require("../../controllers/userController/createUser");
-const getAllUser = require("../../controllers/userController/getUser");
 const deleteUser = require("../../controllers/userController/deleteUser");
+const deleteUserById = require("../../controllers/userController/deleteUserById");
 
 const router = express.Router();
+
+router.get("/", getUser);
+
+router.get("/:id", getUserById);
 
 router.post(
   "/",
@@ -27,6 +34,6 @@ router.post(
 
 router.delete("/", deleteUser);
 
-router.get("/", getAllUser);
+router.delete("/:id", deleteUserById);
 
 module.exports = router;

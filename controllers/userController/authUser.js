@@ -2,34 +2,34 @@ const { validationResult } = require("express-validator");
 const { PrismaClient } = require("@prisma/client");
 const Prisma = new PrismaClient();
 
-const createUser = async (req, res) => {
-  const { username, email, password } = req.body;
+const { sign } = require("jsonwebtoken");
+
+const authUser = async (req, res) => {
+  const { email, password } = req.body;
   const errors = validationResult(req);
+
   try {
     const user = await Prisma.user.findUnique({
       where: {
         email: email,
       },
     });
-    if (email == user.email) {
+    if (password == user.password) {
       res.json({
-        error: "Email exists",
-      });
-    } else {
-      const user = await Prisma.user.create({
-        data: {
-          email,
-          username,
-          password,
-        },
-      });
-      res.json({
-        message: "User created successfully",
+        message: "Login Successfully",
         data: user,
+      });
+      const accesToken = sign(
+        { username: user.username, email: user.email },
+        "Token"
+      );
+    } else {
+      res.json({
+        error: "Invalid email or password",
       });
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
-module.exports = createUser;
+module.exports = authUser;
