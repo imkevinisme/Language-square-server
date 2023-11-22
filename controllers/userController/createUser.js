@@ -11,11 +11,7 @@ const createUser = async (req, res) => {
         email: email,
       },
     });
-    if (email == user.email) {
-      res.json({
-        error: "Email exists",
-      });
-    } else {
+    if (!user) {
       const user = await Prisma.user.create({
         data: {
           email,
@@ -26,6 +22,10 @@ const createUser = async (req, res) => {
       res.json({
         message: "User created successfully",
         data: user,
+      });
+    } else {
+      res.json({
+        error: "Email exists",
       });
     }
   } catch (error) {

@@ -22,7 +22,7 @@ const deleteScoreById = async (req, res) => {
       data: score,
     });
   } catch (error) {
-    return res.status(500).json({ error: "Error Deleting score" });
+    return res.status(500).json({ error: error });
   }
 };
 

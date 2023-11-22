@@ -3,13 +3,13 @@ const { PrismaClient } = require("@prisma/client");
 const Prisma = new PrismaClient();
 
 const createScore = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { score, scoreEmail } = req.body;
   const errors = validationResult(req);
   try {
     const user = await Prisma.score.create({
       data: {
-        scores,
-        scoreBy,
+        score,
+        scoreEmail,
       },
     });
     res.json({
